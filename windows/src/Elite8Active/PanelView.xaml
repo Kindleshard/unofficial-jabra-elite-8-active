@@ -1,0 +1,464 @@
+<UserControl x:Class="Elite8Active.Tray.PanelView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:local="clr-namespace:Elite8Active.Tray"
+             xmlns:p="clr-namespace:Elite8Active.Protocol;assembly=Elite8Active.Core"
+             Width="384"
+             Background="{StaticResource Background}"
+             Foreground="{StaticResource OnSurface}"
+             FontFamily="{StaticResource Text}"
+             FontSize="13.5"
+             UseLayoutRounding="True"
+             TextOptions.TextFormattingMode="Ideal">
+    <UserControl.Resources>
+        <local:VisibleWhen x:Key="Visible" />
+        <local:IsEqual x:Key="Is" />
+        <local:GainText x:Key="Gain" />
+
+        <!-- Icons, drawn in the colour of whatever they sit in. -->
+        <ControlTemplate x:Key="BudIcon" TargetType="Control">
+            <Viewbox>
+                <Canvas Width="48" Height="48">
+                    <Path Data="{x:Static local:Art.BudSilhouette}" Stroke="{TemplateBinding Foreground}" StrokeThickness="3.2" StrokeLineJoin="Round" />
+                    <Path Data="{x:Static local:Art.BudBodyEdge}" Stroke="{TemplateBinding Foreground}" StrokeThickness="3.2" StrokeStartLineCap="Round" StrokeEndLineCap="Round" />
+                </Canvas>
+            </Viewbox>
+        </ControlTemplate>
+        <!-- The fuller drawing for larger sizes (ic_bud_outline): ear gel on its stem, body and microphone. -->
+        <ControlTemplate x:Key="BudOutline" TargetType="Control">
+            <Viewbox>
+                <Canvas Width="48" Height="48">
+                    <Path Data="{x:Static local:Art.BudSilhouette}" Fill="{TemplateBinding Foreground}" Opacity="0.1" />
+                    <Path Data="{x:Static local:Art.BudStem}" Fill="{TemplateBinding Foreground}" Opacity="0.3" />
+                    <Path Data="{x:Static local:Art.BudSilhouette}" Stroke="{TemplateBinding Foreground}" StrokeThickness="1.9" StrokeLineJoin="Round" />
+                    <Path Data="{x:Static local:Art.BudBodyEdge}" Stroke="{TemplateBinding Foreground}" StrokeThickness="1.9" StrokeStartLineCap="Round" StrokeEndLineCap="Round" />
+                    <Path Data="{x:Static local:Art.BudRim}" Stroke="{TemplateBinding Foreground}" StrokeThickness="1.4" Opacity="0.8" StrokeStartLineCap="Round" StrokeEndLineCap="Round" StrokeLineJoin="Round" />
+                    <Path Data="{x:Static local:Art.BudMic}" Stroke="{TemplateBinding Foreground}" StrokeThickness="2.2" Opacity="0.9" StrokeStartLineCap="Round" StrokeEndLineCap="Round" />
+                </Canvas>
+            </Viewbox>
+        </ControlTemplate>
+        <ControlTemplate x:Key="CaseIcon" TargetType="Control">
+            <Viewbox>
+                <Canvas Width="24" Height="24">
+                    <Path Data="M8,6 L16,6 A5,5 0 0 1 21,11 L21,13 A5,5 0 0 1 16,18 L8,18 A5,5 0 0 1 3,13 L3,11 A5,5 0 0 1 8,6 Z" Stroke="{TemplateBinding Foreground}" StrokeThickness="2" />
+                    <Path Data="M3.5,10.5 L20.5,10.5" Stroke="{TemplateBinding Foreground}" StrokeThickness="1.6" />
+                    <Ellipse Canvas.Left="10.8" Canvas.Top="13" Width="2.4" Height="2.4" Fill="{TemplateBinding Foreground}" />
+                </Canvas>
+            </Viewbox>
+        </ControlTemplate>
+        <!-- The sound-mode symbols from the Android app (ic_mode_*.xml). -->
+        <ControlTemplate x:Key="IconAnc" TargetType="Control">
+            <Viewbox>
+                <Canvas Width="24" Height="24">
+                    <Path Data="M4.6,12a7.4,7.4 0,1 0,14.8 0a7.4,7.4 0,1 0,-14.8 0" Stroke="{TemplateBinding Foreground}" StrokeThickness="1.8" />
+                    <Path Data="M9.8,10.2a2.2,2.2 0,1 0,4.4 0a2.2,2.2 0,1 0,-4.4 0" Stroke="{TemplateBinding Foreground}" StrokeThickness="1.8" />
+                    <Path Data="M8.6,16.2c0,-1.9 1.5,-3.1 3.4,-3.1s3.4,1.2 3.4,3.1" Stroke="{TemplateBinding Foreground}" StrokeThickness="1.8" StrokeStartLineCap="Round" StrokeEndLineCap="Round" />
+                    <Path Data="M1.6,8.6a6,6 0,0 1,0 6.8M22.4,8.6a6,6 0,0 0,0 6.8" Stroke="{TemplateBinding Foreground}" StrokeThickness="1.8" Opacity="0.55" StrokeStartLineCap="Round" StrokeEndLineCap="Round" />
+                </Canvas>
+            </Viewbox>
+        </ControlTemplate>
+        <ControlTemplate x:Key="IconHearThrough" TargetType="Control">
+            <Viewbox>
+                <Canvas Width="24" Height="24">
+                    <Path Data="M8.7,8.6a3.3,3.3 0,1 0,6.6 0a3.3,3.3 0,1 0,-6.6 0" Stroke="{TemplateBinding Foreground}" StrokeThickness="1.8" />
+                    <Path Data="M5.6,19.6c0,-3.5 2.9,-5.8 6.4,-5.8s6.4,2.3 6.4,5.8" Stroke="{TemplateBinding Foreground}" StrokeThickness="1.8" StrokeStartLineCap="Round" StrokeEndLineCap="Round" />
+                    <Path Data="M5.2,6a4.6,4.6 0,0 0,0 5.2M2.5,4.2a7.6,7.6 0,0 0,0 8.8M18.8,6a4.6,4.6 0,0 1,0 5.2M21.5,4.2a7.6,7.6 0,0 1,0 8.8" Stroke="{TemplateBinding Foreground}" StrokeThickness="1.8" StrokeStartLineCap="Round" StrokeEndLineCap="Round" />
+                </Canvas>
+            </Viewbox>
+        </ControlTemplate>
+        <ControlTemplate x:Key="IconOff" TargetType="Control">
+            <Viewbox>
+                <Canvas Width="24" Height="24">
+                    <Path Data="M8.7,8.6a3.3,3.3 0,1 0,6.6 0a3.3,3.3 0,1 0,-6.6 0" Stroke="{TemplateBinding Foreground}" StrokeThickness="1.8" />
+                    <Path Data="M5.6,19.6c0,-3.5 2.9,-5.8 6.4,-5.8s6.4,2.3 6.4,5.8" Stroke="{TemplateBinding Foreground}" StrokeThickness="1.8" StrokeStartLineCap="Round" StrokeEndLineCap="Round" />
+                </Canvas>
+            </Viewbox>
+        </ControlTemplate>
+
+        <!-- A battery gauge with its part's name underneath. -->
+        <DataTemplate x:Key="Gauge" DataType="{x:Type local:GaugeVm}">
+            <StackPanel HorizontalAlignment="Center">
+                <Grid Width="86" Height="47">
+                    <local:ArcGauge Percent="{Binding Percent}" />
+                    <TextBlock Text="{Binding Text}" HorizontalAlignment="Center" VerticalAlignment="Bottom">
+                        <TextBlock.Style>
+                            <Style TargetType="TextBlock">
+                                <Setter Property="FontSize" Value="15.5" />
+                                <Setter Property="FontWeight" Value="SemiBold" />
+                                <Setter Property="Margin" Value="0,0,0,-3" />
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding IsOffline}" Value="True">
+                                        <Setter Property="FontSize" Value="11.5" />
+                                        <Setter Property="FontWeight" Value="Normal" />
+                                        <Setter Property="Foreground" Value="{StaticResource OnSurfaceVariant}" />
+                                        <Setter Property="Margin" Value="0,0,0,1" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </TextBlock.Style>
+                    </TextBlock>
+                </Grid>
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,8,0,0">
+                    <Control Width="13" Height="13" Margin="0,0,5,0" Foreground="{StaticResource OnSurfaceVariant}" Focusable="False" RenderTransformOrigin="0.5,0.5">
+                        <Control.Style>
+                            <Style TargetType="Control">
+                                <Setter Property="Template" Value="{StaticResource BudIcon}" />
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding Kind}" Value="RightBud">
+                                        <Setter Property="RenderTransform">
+                                            <Setter.Value>
+                                                <ScaleTransform ScaleX="-1" />
+                                            </Setter.Value>
+                                        </Setter>
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding Kind}" Value="Case">
+                                        <Setter Property="Template" Value="{StaticResource CaseIcon}" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Control.Style>
+                    </Control>
+                    <TextBlock Text="{Binding Label}" Style="{StaticResource Caption}" />
+                </StackPanel>
+            </StackPanel>
+        </DataTemplate>
+
+        <!-- Rows: these are picked by the row's type wherever a row is shown. -->
+        <DataTemplate DataType="{x:Type local:ToggleRow}">
+            <Grid Margin="16,8,14,8">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <StackPanel VerticalAlignment="Center" Margin="0,0,12,0">
+                    <StackPanel.Style>
+                        <Style TargetType="StackPanel">
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding IsEnabled}" Value="False">
+                                    <Setter Property="Opacity" Value="0.5" />
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </StackPanel.Style>
+                    <TextBlock Text="{Binding Title}" Style="{StaticResource Body}" />
+                    <TextBlock Text="{Binding Subtitle}" Style="{StaticResource Caption}" Visibility="{Binding Subtitle, Converter={StaticResource Visible}}" />
+                </StackPanel>
+                <CheckBox Grid.Column="1" Style="{StaticResource Switch}" IsChecked="{Binding IsOn, Mode=OneWay}" Command="{Binding Toggle}" IsEnabled="{Binding IsEnabled}" />
+            </Grid>
+        </DataTemplate>
+
+        <DataTemplate DataType="{x:Type local:ChoiceRow}">
+            <Grid Margin="16,6,12,6">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <StackPanel VerticalAlignment="Center" Margin="0,0,12,0">
+                    <TextBlock Text="{Binding Title}" Style="{StaticResource Body}" />
+                    <TextBlock Text="{Binding Note}" Style="{StaticResource Caption}" Visibility="{Binding Note, Converter={StaticResource Visible}}" />
+                </StackPanel>
+                <Button Grid.Column="1" Style="{StaticResource ValueButton}" Click="Choice_Click" IsEnabled="{Binding IsEnabled}" VerticalAlignment="Center">
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="{Binding SelectedLabel}" />
+                        <TextBlock Text="&#xE70D;" Style="{StaticResource Glyph}" FontSize="9" Margin="8,2,0,0" />
+                    </StackPanel>
+                </Button>
+            </Grid>
+        </DataTemplate>
+
+        <DataTemplate DataType="{x:Type local:StepRow}">
+            <StackPanel Margin="16,8,16,8" Visibility="{Binding IsVisible, Converter={StaticResource Visible}}">
+                <TextBlock Text="{Binding Title}" Style="{StaticResource Body}" />
+                <Slider Minimum="0" Maximum="{Binding Maximum}" TickFrequency="1" IsSnapToTickEnabled="True" SmallChange="1" LargeChange="1" Margin="0,4,0,0"
+                        local:SliderCommit.Source="{Binding Value, Mode=OneWay}" local:SliderCommit.Command="{Binding Commit}" IsEnabled="{Binding IsEnabled}" />
+                <Grid>
+                    <TextBlock Text="{Binding Low}" Style="{StaticResource Caption}" />
+                    <TextBlock Text="{Binding High}" Style="{StaticResource Caption}" HorizontalAlignment="Right" />
+                </Grid>
+            </StackPanel>
+        </DataTemplate>
+
+        <DataTemplate DataType="{x:Type local:HotkeyRow}">
+            <Grid Margin="16,5,12,5">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <StackPanel VerticalAlignment="Center">
+                    <TextBlock Text="{Binding Title}" Style="{StaticResource Body}" />
+                    <TextBlock Text="{Binding Problem}" Style="{StaticResource Caption}" Foreground="{StaticResource Bad}" Visibility="{Binding Problem, Converter={StaticResource Visible}}" />
+                </StackPanel>
+                <Button Grid.Column="1" Style="{StaticResource ValueButton}" Content="{Binding Text}" MinWidth="124" IsEnabled="{Binding IsEnabled}"
+                        Click="Hotkey_Click" PreviewKeyDown="Hotkey_KeyDown" LostKeyboardFocus="Hotkey_LostFocus" ToolTip="Click, then press the new keys" />
+            </Grid>
+        </DataTemplate>
+
+        <DataTemplate x:Key="PresetChip" DataType="{x:Type local:PresetVm}">
+            <ToggleButton Style="{StaticResource Chip}" Content="{Binding Label}" IsChecked="{Binding IsSelected, Mode=OneWay}" Command="{Binding Apply}" IsEnabled="{Binding IsEnabled}" />
+        </DataTemplate>
+        <DataTemplate x:Key="SavedChip" DataType="{x:Type local:PresetVm}">
+            <ToggleButton Style="{StaticResource Chip}" Content="{Binding Label}" IsChecked="{Binding IsSelected, Mode=OneWay}" Command="{Binding Apply}" IsEnabled="{Binding IsEnabled}" ToolTip="Right-click to delete">
+                <ToggleButton.ContextMenu>
+                    <ContextMenu>
+                        <MenuItem Header="Delete" Command="{Binding Delete}" />
+                    </ContextMenu>
+                </ToggleButton.ContextMenu>
+            </ToggleButton>
+        </DataTemplate>
+        <ItemsPanelTemplate x:Key="Wrap">
+            <WrapPanel />
+        </ItemsPanelTemplate>
+    </UserControl.Resources>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <!-- The earbuds: name, connection and battery. -->
+        <Border Margin="12,12,12,0" CornerRadius="18" Background="{StaticResource HeaderGradient}">
+            <Grid>
+                <!-- Flashes green when the connection comes back and red when it drops. -->
+                <Border x:Name="Flash" CornerRadius="18" Opacity="0" IsHitTestVisible="False" Background="{StaticResource Good}" />
+                <StackPanel Margin="16,14,10,13">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                        <StackPanel Orientation="Horizontal" Margin="0,0,11,0" VerticalAlignment="Center" Opacity="{Binding DataOpacity}">
+                            <Control Template="{StaticResource BudOutline}" Width="40" Height="40" Foreground="{StaticResource Primary}" Focusable="False">
+                                <Control.Style>
+                                    <Style TargetType="Control">
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding LeftBudOffline}" Value="True">
+                                                <Setter Property="Opacity" Value="0.3" />
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </Control.Style>
+                            </Control>
+                            <Control Template="{StaticResource BudOutline}" Width="40" Height="40" Foreground="{StaticResource Primary}" Focusable="False" RenderTransformOrigin="0.5,0.5">
+                                <Control.RenderTransform>
+                                    <ScaleTransform ScaleX="-1" />
+                                </Control.RenderTransform>
+                                <Control.Style>
+                                    <Style TargetType="Control">
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding RightBudOffline}" Value="True">
+                                                <Setter Property="Opacity" Value="0.3" />
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </Control.Style>
+                            </Control>
+                        </StackPanel>
+                        <StackPanel Grid.Column="1" VerticalAlignment="Center">
+                            <TextBlock Text="{Binding Title}" Style="{StaticResource Title}" />
+                            <StackPanel Orientation="Horizontal" Margin="0,2,0,0">
+                                <Ellipse Width="8" Height="8" Margin="0,1,6,0" VerticalAlignment="Center">
+                                    <Ellipse.Style>
+                                        <Style TargetType="Ellipse">
+                                            <Setter Property="Fill" Value="{StaticResource Outline}" />
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding StatusKind}" Value="good">
+                                                    <Setter Property="Fill" Value="{StaticResource Good}" />
+                                                </DataTrigger>
+                                                <DataTrigger Binding="{Binding StatusKind}" Value="bad">
+                                                    <Setter Property="Fill" Value="{StaticResource Bad}" />
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </Ellipse.Style>
+                                </Ellipse>
+                                <TextBlock Text="{Binding StatusText}" Style="{StaticResource Caption}" />
+                            </StackPanel>
+                        </StackPanel>
+                        <Button Grid.Column="2" Style="{StaticResource IconButton}" Content="&#xE72C;" Command="{Binding Refresh}" ToolTip="Read everything again" VerticalAlignment="Top" />
+                    </Grid>
+
+                    <UniformGrid Columns="3" Margin="0,14,6,0" Opacity="{Binding DataOpacity}">
+                        <ContentControl Content="{Binding Left}" ContentTemplate="{StaticResource Gauge}" Focusable="False" />
+                        <ContentControl Content="{Binding Right}" ContentTemplate="{StaticResource Gauge}" Focusable="False" />
+                        <ContentControl Content="{Binding Case}" ContentTemplate="{StaticResource Gauge}" Focusable="False" />
+                    </UniformGrid>
+
+                    <TextBlock Text="{Binding Notice}" Margin="0,12,6,0" Visibility="{Binding Notice, Converter={StaticResource Visible}}">
+                        <TextBlock.Style>
+                            <Style TargetType="TextBlock" BasedOn="{StaticResource Caption}">
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding NoticeIsError}" Value="True">
+                                        <Setter Property="Foreground" Value="{StaticResource Bad}" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </TextBlock.Style>
+                    </TextBlock>
+                    <StackPanel Orientation="Horizontal" Margin="-10,2,0,-6">
+                        <Button Style="{StaticResource TextButton}" Content="Try again" Command="{Binding Refresh}" Visibility="{Binding ShowRetry, Converter={StaticResource Visible}}" />
+                        <Button Style="{StaticResource TextButton}" Content="Bluetooth settings" Command="{Binding OpenBluetoothSettings}" Visibility="{Binding ShowBluetoothSettings, Converter={StaticResource Visible}}" />
+                    </StackPanel>
+                </StackPanel>
+                <!-- A thin line while talking to the earbuds. -->
+                <Border Height="2" VerticalAlignment="Bottom" Margin="18,0" CornerRadius="1" Background="{StaticResource Primary}" Visibility="{Binding IsBusy, Converter={StaticResource Visible}}" Opacity="0.8" />
+            </Grid>
+        </Border>
+
+        <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" Focusable="False" Margin="0,2,0,0">
+            <Grid>
+                <!-- Sound -->
+                <StackPanel Margin="12,0,12,14" Visibility="{Binding Tab, Converter={StaticResource Visible}, ConverterParameter=0}">
+                    <TextBlock Text="Noise canceling modes" Style="{StaticResource SectionTitle}" />
+                    <UniformGrid Columns="3" IsEnabled="{Binding CanChangeSound}" Margin="-3,0">
+                        <RadioButton Style="{StaticResource ModeTile}" Margin="3,0" IsChecked="{Binding IsAnc, Mode=OneWay}" Command="{Binding SetMode}" CommandParameter="{x:Static p:SoundMode.Anc}">
+                            <StackPanel>
+                                <Control Template="{StaticResource IconAnc}" Width="28" Height="28" HorizontalAlignment="Left" Focusable="False" />
+                                <TextBlock Text="ANC" FontWeight="SemiBold" FontSize="13" Margin="0,12,0,0" />
+                                <TextBlock Text="Block noise" FontSize="11.5" Opacity="0.75" />
+                            </StackPanel>
+                        </RadioButton>
+                        <RadioButton Style="{StaticResource ModeTile}" Margin="3,0" IsChecked="{Binding IsHearThrough, Mode=OneWay}" Command="{Binding SetMode}" CommandParameter="{x:Static p:SoundMode.HearThrough}">
+                            <StackPanel>
+                                <Control Template="{StaticResource IconHearThrough}" Width="28" Height="28" HorizontalAlignment="Left" Focusable="False" />
+                                <TextBlock Text="HearThrough" FontWeight="SemiBold" FontSize="13" Margin="0,12,0,0" />
+                                <TextBlock Text="Let sound in" FontSize="11.5" Opacity="0.75" />
+                            </StackPanel>
+                        </RadioButton>
+                        <RadioButton Style="{StaticResource ModeTile}" Margin="3,0" IsChecked="{Binding IsOff, Mode=OneWay}" Command="{Binding SetMode}" CommandParameter="{x:Static p:SoundMode.Off}">
+                            <StackPanel>
+                                <Control Template="{StaticResource IconOff}" Width="28" Height="28" HorizontalAlignment="Left" Focusable="False" />
+                                <TextBlock Text="Off" FontWeight="SemiBold" FontSize="13" Margin="0,12,0,0" />
+                                <TextBlock Text="Natural" FontSize="11.5" Opacity="0.75" />
+                            </StackPanel>
+                        </RadioButton>
+                    </UniformGrid>
+                    <Border Style="{StaticResource Card}" Margin="0,8,0,0" Visibility="{Binding HearThroughLevel.IsVisible, Converter={StaticResource Visible}}">
+                        <ContentControl Content="{Binding HearThroughLevel}" Focusable="False" />
+                    </Border>
+
+                    <Grid>
+                        <TextBlock Text="Equalizer" Style="{StaticResource SectionTitle}" />
+                        <TextBlock Text="{Binding EqName}" Style="{StaticResource Caption}" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,6,6" />
+                    </Grid>
+                    <Border Style="{StaticResource Card}" Padding="12,12,6,8">
+                        <StackPanel>
+                            <ItemsControl ItemsSource="{Binding Presets}" ItemTemplate="{StaticResource PresetChip}" ItemsPanel="{StaticResource Wrap}" Focusable="False" />
+                            <ItemsControl ItemsSource="{Binding SavedPresets}" ItemTemplate="{StaticResource SavedChip}" ItemsPanel="{StaticResource Wrap}" Focusable="False" />
+                            <ItemsControl ItemsSource="{Binding Bands}" Margin="0,8,6,0" Focusable="False">
+                                <ItemsControl.ItemsPanel>
+                                    <ItemsPanelTemplate>
+                                        <UniformGrid Rows="1" />
+                                    </ItemsPanelTemplate>
+                                </ItemsControl.ItemsPanel>
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate DataType="{x:Type local:EqBandVm}">
+                                        <StackPanel>
+                                            <TextBlock Text="{Binding Value, ElementName=Band, Converter={StaticResource Gain}}" FontSize="12" Foreground="{StaticResource Primary}" HorizontalAlignment="Center" />
+                                            <Slider x:Name="Band" Orientation="Vertical" Height="104" Minimum="-450" Maximum="450" TickFrequency="10" IsSnapToTickEnabled="True" SmallChange="10" LargeChange="50" HorizontalAlignment="Center" Margin="0,4"
+                                                    local:SliderCommit.Source="{Binding Value, Mode=OneWay}" local:SliderCommit.Command="{Binding Commit}" IsEnabled="{Binding IsEnabled}" />
+                                            <TextBlock Text="{Binding Label}" Style="{StaticResource Caption}" FontSize="11.5" HorizontalAlignment="Center" TextWrapping="NoWrap" />
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+                            <Button Style="{StaticResource TextButton}" Content="Save as a preset…" Command="{Binding BeginSaveEq}" HorizontalAlignment="Left" Margin="-6,6,0,0" Visibility="{Binding ShowSaveEq, Converter={StaticResource Visible}}" />
+                            <Grid Margin="0,8,6,2" Visibility="{Binding IsNamingEq, Converter={StaticResource Visible}}">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition />
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+                                <TextBox x:Name="EqName" Text="{Binding EqNameDraft, UpdateSourceTrigger=PropertyChanged}" KeyDown="EqName_KeyDown" IsVisibleChanged="EqName_IsVisibleChanged" ToolTip="A name for this sound, e.g. Podcasts" />
+                                <Button Grid.Column="1" Style="{StaticResource TextButton}" Content="Save" Command="{Binding ConfirmSaveEq}" Margin="4,0,0,0" />
+                                <Button Grid.Column="2" Style="{StaticResource TextButton}" Content="Cancel" Command="{Binding CancelSaveEq}" Foreground="{StaticResource OnSurfaceVariant}" />
+                            </Grid>
+                        </StackPanel>
+                    </Border>
+
+                    <Border Style="{StaticResource Card}" Margin="0,10,0,0">
+                        <ContentControl Content="{Binding SpatialSound}" Focusable="False" />
+                    </Border>
+                </StackPanel>
+
+                <!-- The earbuds' own settings -->
+                <StackPanel Margin="12,0,12,14" Visibility="{Binding Tab, Converter={StaticResource Visible}, ConverterParameter=1}">
+                    <TextBlock Text="Wearing detection" Style="{StaticResource SectionTitle}" />
+                    <Border Style="{StaticResource Card}">
+                        <StackPanel>
+                            <ItemsControl ItemsSource="{Binding WearingRows}" Focusable="False" />
+                            <TextBlock Text="Turn on wearing detection to use these." Style="{StaticResource Caption}" Margin="16,2,16,8" Visibility="{Binding ShowWearingHint, Converter={StaticResource Visible}}" />
+                        </StackPanel>
+                    </Border>
+                    <TextBlock Text="Calls" Style="{StaticResource SectionTitle}" />
+                    <Border Style="{StaticResource Card}">
+                        <ItemsControl ItemsSource="{Binding CallRows}" Focusable="False" />
+                    </Border>
+                    <TextBlock Text="General" Style="{StaticResource SectionTitle}" />
+                    <Border Style="{StaticResource Card}">
+                        <ItemsControl ItemsSource="{Binding GeneralRows}" Focusable="False" />
+                    </Border>
+                    <TextBlock Text="Buttons" Style="{StaticResource SectionTitle}" />
+                    <Border Style="{StaticResource Card}">
+                        <ItemsControl ItemsSource="{Binding ButtonRows}" Focusable="False" />
+                    </Border>
+                    <TextBlock Text="What each press does is set in the phone app, under Controls." Style="{StaticResource Caption}" Margin="6,8,6,0" />
+                </StackPanel>
+
+                <!-- This app -->
+                <StackPanel Margin="12,0,12,14" Visibility="{Binding Tab, Converter={StaticResource Visible}, ConverterParameter=2}">
+                    <TextBlock Text="Notifications" Style="{StaticResource SectionTitle}" />
+                    <Border Style="{StaticResource Card}">
+                        <ContentControl Content="{Binding LowBatteryAlert}" Focusable="False" />
+                    </Border>
+                    <TextBlock Text="Keyboard shortcuts" Style="{StaticResource SectionTitle}" />
+                    <Border Style="{StaticResource Card}">
+                        <StackPanel>
+                            <ContentControl Content="{Binding Shortcuts}" Focusable="False" />
+                            <ItemsControl ItemsSource="{Binding Hotkeys}" Focusable="False" />
+                            <TextBlock Text="Click a shortcut, then press the new keys. Esc cancels." Style="{StaticResource Caption}" Margin="16,4,16,8" />
+                        </StackPanel>
+                    </Border>
+                    <TextBlock Text="Start-up" Style="{StaticResource SectionTitle}" />
+                    <Border Style="{StaticResource Card}">
+                        <ContentControl Content="{Binding StartWithWindows}" Focusable="False" />
+                    </Border>
+                    <TextBlock Text="About" Style="{StaticResource SectionTitle}" />
+                    <Border Style="{StaticResource Card}" Padding="16,10,10,6">
+                        <StackPanel>
+                            <TextBlock Text="{Binding Version}" Style="{StaticResource Body}" />
+                            <TextBlock Style="{StaticResource Caption}" Margin="0,2,6,0"
+                                       Text="Controls the earbuds while they're connected to this PC. Free and open source; not made by or affiliated with Jabra." />
+                            <Button Style="{StaticResource TextButton}" Content="Quit" Command="{Binding Quit}" HorizontalAlignment="Left" Margin="-10,4,0,0" />
+                        </StackPanel>
+                    </Border>
+                </StackPanel>
+            </Grid>
+        </ScrollViewer>
+
+        <Border Grid.Row="2" Background="{StaticResource SurfaceLow}" BorderBrush="{StaticResource OutlineVariant}" BorderThickness="0,1,0,0">
+            <UniformGrid Columns="3" Height="60">
+                <RadioButton Style="{StaticResource TabButton}" Tag="0" Click="Tab_Click" IsChecked="{Binding Tab, Mode=OneWay, Converter={StaticResource Is}, ConverterParameter=0}">
+                    <StackPanel>
+                        <TextBlock Text="&#xE767;" Style="{StaticResource Glyph}" HorizontalAlignment="Center" Margin="0,12,0,0" />
+                        <TextBlock Text="Sound" HorizontalAlignment="Center" Margin="0,7,0,0" />
+                    </StackPanel>
+                </RadioButton>
+                <RadioButton Style="{StaticResource TabButton}" Tag="1" Click="Tab_Click" IsChecked="{Binding Tab, Mode=OneWay, Converter={StaticResource Is}, ConverterParameter=1}">
+                    <StackPanel>
+                        <TextBlock Text="&#xE7F6;" Style="{StaticResource Glyph}" HorizontalAlignment="Center" Margin="0,12,0,0" />
+                        <TextBlock Text="Earbuds" HorizontalAlignment="Center" Margin="0,7,0,0" />
+                    </StackPanel>
+                </RadioButton>
+                <RadioButton Style="{StaticResource TabButton}" Tag="2" Click="Tab_Click" IsChecked="{Binding Tab, Mode=OneWay, Converter={StaticResource Is}, ConverterParameter=2}">
+                    <StackPanel>
+                        <TextBlock Text="&#xE770;" Style="{StaticResource Glyph}" HorizontalAlignment="Center" Margin="0,12,0,0" />
+                        <TextBlock Text="This PC" HorizontalAlignment="Center" Margin="0,7,0,0" />
+                    </StackPanel>
+                </RadioButton>
+            </UniformGrid>
+        </Border>
+    </Grid>
+</UserControl>

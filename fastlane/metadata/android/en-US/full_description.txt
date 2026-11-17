@@ -1,0 +1,28 @@
+<p>A free, open-source app for the <b>Jabra Elite 8 Active</b> earbuds. It changes the same settings as Jabra's own Sound+ app, plus a few things it doesn't do, with no account, no ads and no tracking.</p>
+
+<p><b>Unofficial:</b> not made by, affiliated with or endorsed by Jabra or GN Audio. It works only with the Jabra Elite 8 Active: the app reads the model from the earbuds and refuses anything else.</p>
+
+<p><b>Sound</b></p>
+<ul>
+<li>ANC, HearThrough and how much it lets in</li>
+<li>The six Jabra EQ presets, a 5-band custom EQ, and your own saved presets</li>
+<li>Spatial Sound</li>
+</ul>
+
+<p><b>Earbuds</b></p>
+<ul>
+<li>Every button gesture, including a menu Sound+ hides</li>
+<li>Wearing detection, call settings (sidetone and its volume, mute reminder, automatic volume), sleep timer, voice guidance, the press-and-hold voice assistant, renaming</li>
+<li>Battery for each earbud and the case, and which earbud is in the case or out of range</li>
+</ul>
+
+<p><b>Extras</b></p>
+<ul>
+<li>Find My: where the earbuds last disconnected, a locator sound, and an optional left-behind alert</li>
+<li>Automatic modes when you arrive at places you've saved</li>
+<li>A Quick Settings tile and app-icon shortcuts for ANC, HearThrough and Off</li>
+<li>Battery pop-up when the earbuds connect, low-battery alert, battery-health estimate</li>
+<li>An optional notice when Jabra publishes new firmware (reads Jabra's public release notes; updating is still done in Sound+)</li>
+</ul>
+
+<p>Everything stays on your phone. The F-Droid build uses only free libraries, so automatic modes work by place; the GitHub build can also switch by what you're doing (walking, in a vehicle) through Google Play services.</p>

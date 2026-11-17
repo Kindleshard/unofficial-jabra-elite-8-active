@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Shortcut icon foreground: ic_mode_off in navy, scaled into the adaptive icon's safe zone. -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+    <group
+        android:scaleX="1.75"
+        android:scaleY="1.75"
+        android:translateX="33"
+        android:translateY="33">
+        <path
+            android:pathData="M8.7,8.6a3.3,3.3 0,1 0,6.6 0a3.3,3.3 0,1 0,-6.6 0"
+            android:strokeWidth="1.8"
+            android:strokeColor="#FF1C2541" />
+        <path
+            android:pathData="M5.6,19.6c0,-3.5 2.9,-5.8 6.4,-5.8s6.4,2.3 6.4,5.8"
+            android:strokeWidth="1.8"
+            android:strokeColor="#FF1C2541"
+            android:strokeLineCap="round" />
+    </group>
+</vector>

@@ -1,0 +1,14 @@
+<Project>
+
+  <!-- Applies to every project under windows/. -->
+  <PropertyGroup>
+    <!-- The version is just the number, without the commit it was built from. -->
+    <IncludeSourceRevisionInInformationalVersion>false</IncludeSourceRevisionInInformationalVersion>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)' == 'Release'">
+    <!-- The published folder is just the program, without debug symbols. -->
+    <DebugType>none</DebugType>
+  </PropertyGroup>
+
+</Project>

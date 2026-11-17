@@ -1,0 +1,27 @@
+# Kept on disk, not in git:
+# Jabra Sound+ APKs pulled from the phone (Jabra's copyright, ~136 MB)
+apk/
+# Phone bug reports and HCI snoop logs: personal data, ~50 MB each
+capture*/
+
+__pycache__/
+*.log
+snapshots/screens/*.png
+design/ref/
+
+# .NET build output (windows/)
+windows/**/bin/
+windows/**/obj/
+windows/publish/
+
+# Release signing: the key and its passwords never go into git.
+android/keystore.properties
+*.jks
+*.keystore
+
+# Research output and local tooling: kept on this PC, not published.
+/snapshots/
+/setup-rea.ps1
+/.claude/
+# The art workshop pages; they need product photos that can't be published.
+/design/

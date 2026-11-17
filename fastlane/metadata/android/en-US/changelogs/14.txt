@@ -1,0 +1,5 @@
+First public release.
+
+- Unofficial Jabra Elite 8 Active: the app checks the model and refuses other earbuds
+- Shows which earbud is in the case, and fixes left and right swapping
+- Automatic modes, alerts, shortcuts, saved EQ presets

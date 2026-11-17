@@ -1,0 +1,6 @@
+* text=auto
+# Shell scripts must keep LF line endings; Windows batch files keep CRLF.
+android/gradlew text eol=lf
+*.sh text eol=lf
+*.bat text eol=crlf
+*.jar binary

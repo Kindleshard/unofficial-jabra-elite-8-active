@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- HearThrough: the listener with the world's sound reaching both ears. -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="24dp"
+    android:height="24dp"
+    android:viewportWidth="24"
+    android:viewportHeight="24">
+    <path
+        android:pathData="M8.7,8.6a3.3,3.3 0,1 0,6.6 0a3.3,3.3 0,1 0,-6.6 0"
+        android:strokeWidth="1.8"
+        android:strokeColor="#FF000000" />
+    <path
+        android:pathData="M5.6,19.6c0,-3.5 2.9,-5.8 6.4,-5.8s6.4,2.3 6.4,5.8"
+        android:strokeWidth="1.8"
+        android:strokeColor="#FF000000"
+        android:strokeLineCap="round" />
+    <path
+        android:pathData="M5.2,6a4.6,4.6 0,0 0,0 5.2M2.5,4.2a7.6,7.6 0,0 0,0 8.8M18.8,6a4.6,4.6 0,0 1,0 5.2M21.5,4.2a7.6,7.6 0,0 1,0 8.8"
+        android:strokeWidth="1.8"
+        android:strokeColor="#FF000000"
+        android:strokeLineCap="round" />
+</vector>
